@@ -11,6 +11,7 @@ Web servers :
 
 Folder structure is given below :
 
+```
 /php-apache-mysql/
 ├── apache
 │   ├── apache_php.conf

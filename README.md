@@ -1,12 +1,16 @@
 # docker CRUD app in PHP/MYSQL
 Sample web app in docker image
+
 Created by Surya Mitra | M20AIE314
 
 We have basically created a simple webapp using PHP and MySQL(db). The app allows users to perform CRUD operations.
 
 Web servers :
-1.Apache(Php)
-2.PHPMyadmin for mysql operations
+
+1. Apache(Php)
+
+
+2. PHPMyadmin for mysql operations
 
 
 Folder structure is given below :
@@ -36,11 +40,13 @@ Folder structure is given below :
 │   └── update.php
 └── README.md
 ```
+### Running the app :
 
-To Run the app :
+
 We have to clone these files and Docker and Docker compose should be installed locally, we can use "docker-compose up" from the root of the project to run this project, and open http://localhost:8080 to see it running.
----------------------------------------------------------------------------------------------
-Application operations :
+
+### Application operations :
+
 
 "dump.sql" creates a table 'employees' in the mydb database. 
 
@@ -58,7 +64,7 @@ Application operations :
 
 "error.php" will be displyed if a request is invalid.
 
-Docker compose :
+### Docker compose :
 
 It will allow us to define the dependencies for the services, networks, volumes, etc as code
 
@@ -136,7 +142,6 @@ RUN docker-php-ext-install mysqli
     CustomLog /proc/self/fd/1 common
     ErrorLog /proc/self/fd/2
 </VirtualHost>
-```
 
 
 

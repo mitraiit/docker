@@ -1,4 +1,4 @@
-# docker
+# docker CRUD app in PHP/MYSQL
 Sample web app in docker image
 Created by Surya Mitra | M20AIE314
 

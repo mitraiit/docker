@@ -127,22 +127,6 @@ RUN apk update; \
 RUN docker-php-ext-install mysqli
 ```
 
-<VirtualHost *:80>
-    # Proxy .php requests to port 9000 of the php-fpm container
-    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:9000/var/www/html/$1
-    DocumentRoot /var/www/html/
-    <Directory /var/www/html/>
-        DirectoryIndex index.php
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-    
-    # Send apache logs to stdout and stderr
-    CustomLog /proc/self/fd/1 common
-    ErrorLog /proc/self/fd/2
-</VirtualHost>
-
 
 
 

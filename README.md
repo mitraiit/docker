@@ -34,13 +34,14 @@ Folder structure is given below :
 │   ├── read.php
 │   └── update.php
 └── README.md
+```
 
 To Run the app :
 We have to clone these files and Docker and Docker compose should be installed locally, we can use "docker-compose up" from the root of the project to run this project, and open http://localhost:8080 to see it running.
 ---------------------------------------------------------------------------------------------
 Application operations :
 
-"dump.sql" creates a table 'employees' in the mydb database.
+"dump.sql" creates a table 'employees' in the mydb database. 
 
 "config.php" connects the php code with the 'employees' table of mydb database.
 
@@ -55,10 +56,13 @@ Application operations :
 "delete.php" deletes records in employees table.
 
 "error.php" will be displyed if a request is invalid.
---------------------------------------------------------------------------------------------------------------
-Docker compose :
-It allows us to define the dependencies for the services, networks, volumes, etc as code
 
+Docker compose :
+
+It will allow us to define the dependencies for the services, networks, volumes, etc as code
+
+#### docker-compose.yml
+```
 version: "3"
 services:
   php:
@@ -90,28 +94,48 @@ services:
       MYSQL_PASSWORD: "passwd"
 volumes:
     db_data:
-Here we will be decoupling Apache, PHP and Mysql by building them out into separate containers.We will be using the below Dockerfiles to decouple them :
--------------------------------------------------------------------------
-Docker File :
+```
 
+Here we are decoupling Apache, PHP and Mysql by building them out into separate containers.We will be using the below Dockerfiles to decouple them : 
+
+#### apache/Dockerfile
+```
 FROM httpd:2.4.33-alpine
 
 RUN apk update; \
     apk upgrade;
 
-apache_php.conf /usr/local/apache2/conf/apache_php.conf
+COPY apache_php.conf /usr/local/apache2/conf/apache_php.conf
 RUN echo "Include /usr/local/apache2/conf/apache_php.conf" \
     >> /usr/local/apache2/conf/httpd.conf
-----------------------------------------------------------------------
-php/Dockerfile
+```
+
+#### php/Dockerfile
+```
 FROM php:7.2.7-fpm-alpine3.7
 
 RUN apk update; \
     apk upgrade;
 
 RUN docker-php-ext-install mysqli
+```
 
-
+<VirtualHost *:80>
+    # Proxy .php requests to port 9000 of the php-fpm container
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://php:9000/var/www/html/$1
+    DocumentRoot /var/www/html/
+    <Directory /var/www/html/>
+        DirectoryIndex index.php
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+    
+    # Send apache logs to stdout and stderr
+    CustomLog /proc/self/fd/1 common
+    ErrorLog /proc/self/fd/2
+</VirtualHost>
+```
 
 
 
